@@ -1,18 +1,17 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-#define PARI_OLD_NAMES
+#include <fstream>
 #include <stdio.h>
-#include <iostream>
 #include <stdlib.h>
-#include <math.h>
+#include <cmath>
 #include <pari/pari.h>
-//#include <pari.h>
 #include <time.h>
 #include <string.h>
-#include <sys/time.h>
 #include <vector>
-
+#include <sys/time.h>
+//#include <iostream>
+#define PARI_OLD_NAMES
 pari_sp ltop, lbot;
 
 struct parameters{
@@ -21,7 +20,7 @@ struct parameters{
 };
 
 void print(GEN x){
-    std::cout << GENtostr(x) << std::endl;
+    printf("%s\n",  GENtostr(x));
     return;
 }
 

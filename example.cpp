@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int main(){
+int test(){
     pari_init(2000000000, 2);
     srand(time(NULL));
     int n = N;
@@ -16,7 +16,7 @@ int main(){
     parameters* params = new parameters;
     gel(v, 1) = stoi(1);
     for (int i = 2; i <= n; i++)
-        gel(v, i) = gzero;
+        gel(v, i) = stoi(0);
     gel(v, n + 1) = stoi(1);
     params->t = stoi(T);
     params->sigma = sig;
