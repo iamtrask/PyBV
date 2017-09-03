@@ -7,29 +7,29 @@ The API can be imported using the command "import BV". It currently supports the
 
 ## Functions:
 
-1. pari_init(pari_size, max_prime)   
+### pari_init(pari_size, max_prime)   
    pari_init() is the function that needs to be called before dealing with this API. pari_size defines the size of stack we'll be using, and max_prime defines the pre computed prime table. Arguments: pari_size (int), max_prime (int)
 
-2. pari_close()   
+### pari_close()   
    pari_close() function has to be called at the end of each program to clear the memory used.
 
-3. create_GEN(x)   
+### create_GEN(x)   
    create_GEN() function converts integer x to GEN
 
-4. get_element(x, i)   
+### get_element(x, i)   
    get_element() function returns the i^th element of GEN variable x
 
-5. print_GEN(x)   
+### print_GEN(x)   
    print_GEN() function prints the GEN variable x
 
 ## Classes:
 
-1. parameters
+### parameters
   * Class Data:
     1. n, Q, sigma (ints)
     2. q, t, F (GEN)
 
-2. secret_key
+### secret_key
   * Class Data:
     1. sk (GEN)
     2. params (parameters)
@@ -43,7 +43,7 @@ The API can be imported using the command "import BV". It currently supports the
   * serialize(self)   
     TO BE IMPLEMENTED
 
-3. public_key
+### public_key
   * Class Data:
     1. pk (GEN)
     2. params (parameters*)
@@ -57,19 +57,19 @@ The API can be imported using the command "import BV". It currently supports the
   * serialize(self)   
     TO BE IMPLEMENTED
 
-4. key_pair
+### key_pair
   * Class Data:
     1. sk (secret_key)
     2. pk (public_key)
 
-5. key_gen
+### key_gen
   * generate_key(self, n, Q, T, sigma)   
     generate_key() method returns the keys, which is of type key_pair. Arguments: n (int), Q (int), T (int), sigma (int)
 
   * deserialize(self)   
     TO BE IMPLEMENTED
 
-6. ciphertext   
+### ciphertext   
     The class is compatible with '+', '*', and '-' operators
   * Class Data:
     1. value (GEN)
