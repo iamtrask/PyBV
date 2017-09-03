@@ -34,7 +34,7 @@ The API can be imported using the command "import BV". It currently supports the
     1. sk (GEN)
     2. params (parameters)
 
-  * __init__(self, sk = None, parmas = None)   
+  * \_\_init\_\_(self, sk = None, parmas = None)   
     The constructor initiates class data. Arguments: sk (GEN), params (parameters)
 
   * decrypt(self, ct)   
@@ -48,7 +48,7 @@ The API can be imported using the command "import BV". It currently supports the
     1. pk (GEN)
     2. params (parameters*)
 
-  * __init__(self, pk = None, params = None)   
+  * \_\_init\_\_(self, pk = None, params = None)   
     The constructor initiates the class data. Arguments: pk (GEN), params (parameters*)
 
   * encrypt(self, pt)   
@@ -75,7 +75,7 @@ The API can be imported using the command "import BV". It currently supports the
     1. value (GEN)
     2. pk (public_key*)
 
-  * __init__(self, plaintext = None, pk)   
+  * \_\_init\_\_(self, plaintext = None, pk)   
     The constuctor method takes two arguments: plaintext (GEN variable), pk (public_key*)
 
   * decrypt(self, sk)   
