@@ -7,19 +7,19 @@ The API can be imported using the command "import BV". It currently supports the
 
 ## Functions:
 
-1. pari_init(pari_size, max_prime)
+1. pari_init(pari_size, max_prime)   
    pari_init() is the function that needs to be called before dealing with this API. pari_size defines the size of stack we'll be using, and max_prime defines the pre computed prime table. Arguments: pari_size (int), max_prime (int)
 
-2. pari_close()
+2. pari_close()   
    pari_close() function has to be called at the end of each program to clear the memory used.
 
-3. create_GEN(x)
+3. create_GEN(x)   
    create_GEN() function converts integer x to GEN
 
-4. get_element(x, i)
+4. get_element(x, i)   
    get_element() function returns the i^th element of GEN variable x
 
-5. print_GEN(x)
+5. print_GEN(x)   
    print_GEN() function prints the GEN variable x
 
 ## Classes:
@@ -34,13 +34,13 @@ The API can be imported using the command "import BV". It currently supports the
     1. sk (GEN)
     2. params (parameters)
 
-  * __init__(self, sk = None, parmas = None)
+  * __init__(self, sk = None, parmas = None)   
     The constructor initiates class data. Arguments: sk (GEN), params (parameters)
 
-  * decrypt(self, ct)
+  * decrypt(self, ct)   
     decrypt() method returns the plaintext (GEN) encrypted in ciphertext ct. Arguments: ct (GEN) 
 
-  * serialize(self)
+  * serialize(self)   
     TO BE IMPLEMENTED
 
 3. public_key
@@ -48,13 +48,13 @@ The API can be imported using the command "import BV". It currently supports the
     1. pk (GEN)
     2. params (parameters*)
 
-  * __init__(self, pk = None, params = None)
+  * __init__(self, pk = None, params = None)   
     The constructor initiates the class data. Arguments: pk (GEN), params (parameters*)
 
-  * encrypt(self, pt)
+  * encrypt(self, pt)   
     encrypt() method returns the ciphertext (GEN) which encrypts plaintext pt. Arguments: pt (GEN)
 
-  * serialize(self)
+  * serialize(self)   
     TO BE IMPLEMENTED
 
 4. key_pair
@@ -63,20 +63,20 @@ The API can be imported using the command "import BV". It currently supports the
     2. pk (public_key)
 
 5. key_gen
-  * generate_key(self, n, Q, T, sigma)
+  * generate_key(self, n, Q, T, sigma)   
     generate_key() method returns the keys, which is of type key_pair. Arguments: n (int), Q (int), T (int), sigma (int)
 
-  * deserialize(self)
+  * deserialize(self)   
     TO BE IMPLEMENTED
 
-6. ciphertext
+6. ciphertext   
     The class is compatible with '+', '*', and '-' operators
   * Class Data:
     1. value (GEN)
     2. pk (public_key*)
 
-  * __init__(self, plaintext = None, pk)
+  * __init__(self, plaintext = None, pk)   
     The constuctor method takes two arguments: plaintext (GEN variable), pk (public_key*)
 
-  * decrypt(self, sk)
+  * decrypt(self, sk)   
     decrypt() method returns the decrypted ciphertext which is GEN variable. Arguments: sk (secret_key*)
