@@ -4,28 +4,30 @@ class ciphertext{
 public:
     GEN value;
     int degree;
-    public_key pk;
+    public_key* pk;
     
     ciphertext(){};
     
-    ciphertext(public_key pk){
+    ~ciphertext(){};
+    
+    ciphertext(public_key* pk){
         this->degree = 0;
         this->pk = pk;
     }
     
-    ciphertext(GEN m, public_key pk){
+    ciphertext(GEN m, public_key* pk){
         this->degree = 2;
         this->pk = pk;
-        this->value = pk.encrypt(m);
+        this->value = pk->encrypt(m);
     }
     
-    void initialize(GEN m, public_key pk){
+    void initialize(GEN m, public_key* pk){
         this->degree = 2;
         this->pk = pk;
-        this->value = pk.encrypt(m);
+        this->value = pk->encrypt(m);
     }
     
-    void initialize(public_key pk){
+    void initialize(public_key* pk){
         this->degree = 0;
         this->pk = pk;
     }
@@ -33,7 +35,7 @@ public:
     ciphertext operator+(ciphertext &ct){
         ciphertext result;
         result.value = addition(this->value, ct.value);
-        degree = max(this->degree, ct.degree);
+        degree = std::max(this->degree, ct.degree);
         result.pk = this->pk;
         return result;
     }
@@ -49,7 +51,7 @@ public:
     ciphertext operator-(ciphertext &ct){
         ciphertext result;
         result.value = subtraction(this->value, ct.value);
-        degree = max(this->degree, ct.degree);
+        degree = std::max(this->degree, ct.degree);
         result.pk = this->pk;
         return result;
     }
@@ -59,3 +61,4 @@ public:
         return m;
     }
 };
+

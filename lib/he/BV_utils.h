@@ -3,13 +3,12 @@
 #endif
 #define PARI_OLD_NAMES
 #include <stdio.h>
-#include <iostream>
 #include <stdlib.h>
 #include <math.h>
 #include <pari/pari.h>
 //#include <pari.h>
 #include <time.h>
-#include <string.h>
+#include <string>
 #include <sys/time.h>
 
 struct timeval tv;
@@ -21,9 +20,17 @@ struct parameters{
     GEN q, t, F;
 };
 
-void print(GEN x){
-    std::cout << GENtostr(x) << std::endl;
-    return;
+GEN get_element(GEN x, int index){
+    return gel(x, index - 1);
+}
+
+void print_GEN(GEN x){
+    printf("%s\n", GENtostr(x));;
+}
+
+GEN create_GEN(int x){
+    GEN y = stoi(x);
+    return y;
 }
 
 double Uniform(void) {

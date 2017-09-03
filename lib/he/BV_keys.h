@@ -1,7 +1,5 @@
 #include "BV_utils.h"
 
-using namespace std;
-
 class secret_key{
 private:
     GEN sk;
@@ -47,6 +45,8 @@ public:
     void serialize(){
         return;
     }
+    
+    ~secret_key(){};
 };
 
 class public_key{
@@ -98,6 +98,8 @@ public:
     void serialize(){
         return;
     }
+    
+    ~public_key(){};
 };
 
 struct key_pair{
@@ -138,8 +140,8 @@ public:
         return keys;
     }
     
-    key_pair deserialize(string public_key, string secret_key){
+    /*key_pair deserialize(std::string public_key, std::string secret_key){
         key_pair keys;
         return keys;
-    }
+    }*/
 };

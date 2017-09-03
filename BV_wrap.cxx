@@ -3119,7 +3119,7 @@ namespace swig {
 }
 
 
-#include "he/BV_basic.h"
+#include "lib/he/BV_basic.h"
 
 
 SWIGINTERN int
