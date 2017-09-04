@@ -21,7 +21,7 @@ struct parameters{
 };
 
 GEN get_element(GEN x, int index){
-    return gel(x, index - 1);
+    return gel(x, index + 1);
 }
 
 void print_GEN(GEN x){
