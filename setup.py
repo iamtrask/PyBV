@@ -8,7 +8,7 @@ example_module = Extension('_BV',
                            library_dirs = ['/usr/local/lib/'],
                            libraries = ['pari'],
                         # extra_compile_args = ["-std=c++11", "-lpari", "-mmacosx-version-min=10.7", "-pthread", "-O3", "-march=native", "-Wall", "-funroll-loops", "-Wno-unused-result","-I/usr/local/opt/openblas/include/"],
-                        extra_compile_args = ["-std=c++11", "-mmacosx-version-min=10.7", "-pthread", "-O3", "-march=native", "-Wall", "-funroll-loops", "-Wno-unused-result", "-lpari"],
+                        extra_compile_args = ["-std=c++11", "-pthread", "-O3", "-march=native", "-Wall", "-funroll-loops", "-Wno-unused-result", "-lpari"],
                            )
 
 setup (name = 'BV',
