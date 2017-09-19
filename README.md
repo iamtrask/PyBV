@@ -16,7 +16,7 @@ The API can be imported using the command "import BV". It currently supports the
 ## Classes:
 
 ### pari_GEN
-    This class abstracts the GEN variable in C++, making it available through python interface. The class is compatible with +, *, /, -, \_\_getitem\_\_ , %, and print.
+    This class abstracts the GEN variable in C++, making it available through python interface. The class is compatible with +, *, /, -, __getitem__ , %, and print.
   * Class Data:
     1. value (GEN)
     
