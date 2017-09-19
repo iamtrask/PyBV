@@ -103,26 +103,73 @@ pari_init = _BV.pari_init
 def pari_close():
     return _BV.pari_close()
 pari_close = _BV.pari_close
+class intArray(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, intArray, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, intArray, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, nelements):
+        this = _BV.new_intArray(nelements)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _BV.delete_intArray
+    __del__ = lambda self: None
+
+    def __getitem__(self, index):
+        return _BV.intArray___getitem__(self, index)
+
+    def __setitem__(self, index, value):
+        return _BV.intArray___setitem__(self, index, value)
+
+    def cast(self):
+        return _BV.intArray_cast(self)
+    if _newclass:
+        frompointer = staticmethod(_BV.intArray_frompointer)
+    else:
+        frompointer = _BV.intArray_frompointer
+intArray_swigregister = _BV.intArray_swigregister
+intArray_swigregister(intArray)
+
+def intArray_frompointer(t):
+    return _BV.intArray_frompointer(t)
+intArray_frompointer = _BV.intArray_frompointer
+
 class ciphertext(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, ciphertext, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, ciphertext, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["value"] = _BV.ciphertext_value_set
-    __swig_getmethods__["value"] = _BV.ciphertext_value_get
-    if _newclass:
-        value = _swig_property(_BV.ciphertext_value_get, _BV.ciphertext_value_set)
     __swig_setmethods__["degree"] = _BV.ciphertext_degree_set
     __swig_getmethods__["degree"] = _BV.ciphertext_degree_get
     if _newclass:
         degree = _swig_property(_BV.ciphertext_degree_get, _BV.ciphertext_degree_set)
+    __swig_setmethods__["value"] = _BV.ciphertext_value_set
+    __swig_getmethods__["value"] = _BV.ciphertext_value_get
+    if _newclass:
+        value = _swig_property(_BV.ciphertext_value_get, _BV.ciphertext_value_set)
     __swig_setmethods__["pk"] = _BV.ciphertext_pk_set
     __swig_getmethods__["pk"] = _BV.ciphertext_pk_get
     if _newclass:
         pk = _swig_property(_BV.ciphertext_pk_get, _BV.ciphertext_pk_set)
     __swig_destroy__ = _BV.delete_ciphertext
     __del__ = lambda self: None
+
+    def packing_method(self, m, pk):
+        return _BV.ciphertext_packing_method(self, m, pk)
+
+    def __add__(self, ct):
+        return _BV.ciphertext___add__(self, ct)
+
+    def __sub__(self, ct):
+        return _BV.ciphertext___sub__(self, ct)
+
+    def decrypt(self, sk):
+        return _BV.ciphertext_decrypt(self, sk)
 
     def __init__(self, *args):
         this = _BV.new_ciphertext(*args)
@@ -131,20 +178,11 @@ class ciphertext(_object):
         except __builtin__.Exception:
             self.this = this
 
-    def initialize(self, *args):
-        return _BV.ciphertext_initialize(self, *args)
+    def __mul__(self, *args):
+        return _BV.ciphertext___mul__(self, *args)
 
-    def __add__(self, ct):
-        return _BV.ciphertext___add__(self, ct)
-
-    def __mul__(self, ct):
-        return _BV.ciphertext___mul__(self, ct)
-
-    def __sub__(self, ct):
-        return _BV.ciphertext___sub__(self, ct)
-
-    def decrypt(self, sk):
-        return _BV.ciphertext_decrypt(self, sk)
+    def __rmul__(self, pt):
+        return _BV.ciphertext___rmul__(self, pt)
 ciphertext_swigregister = _BV.ciphertext_swigregister
 ciphertext_swigregister(ciphertext)
 
@@ -185,6 +223,10 @@ class public_key(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, public_key, name)
     __repr__ = _swig_repr
+    __swig_setmethods__["pk"] = _BV.public_key_pk_set
+    __swig_getmethods__["pk"] = _BV.public_key_pk_get
+    if _newclass:
+        pk = _swig_property(_BV.public_key_pk_get, _BV.public_key_pk_set)
     __swig_setmethods__["params"] = _BV.public_key_params_set
     __swig_getmethods__["params"] = _BV.public_key_params_get
     if _newclass:
@@ -258,6 +300,53 @@ key_gen_swigregister = _BV.key_gen_swigregister
 key_gen_swigregister(key_gen)
 
 M_PI = _BV.M_PI
+class pari_GEN(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, pari_GEN, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, pari_GEN, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["value"] = _BV.pari_GEN_value_set
+    __swig_getmethods__["value"] = _BV.pari_GEN_value_get
+    if _newclass:
+        value = _swig_property(_BV.pari_GEN_value_get, _BV.pari_GEN_value_set)
+
+    def __init__(self, *args):
+        this = _BV.new_pari_GEN(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+
+    def __add__(self, GEN_2):
+        return _BV.pari_GEN___add__(self, GEN_2)
+
+    def __mul__(self, GEN_2):
+        return _BV.pari_GEN___mul__(self, GEN_2)
+
+    def __truediv__(self, *args):
+        return _BV.pari_GEN___truediv__(self, *args)
+    __div__ = __truediv__
+
+
+
+    def __sub__(self, GEN_2):
+        return _BV.pari_GEN___sub__(self, GEN_2)
+
+    def __mod__(self, GEN_2):
+        return _BV.pari_GEN___mod__(self, GEN_2)
+
+    def __str__(self):
+        return _BV.pari_GEN___str__(self)
+
+    def __getitem__(self, key):
+        return _BV.pari_GEN___getitem__(self, key)
+    __swig_destroy__ = _BV.delete_pari_GEN
+    __del__ = lambda self: None
+pari_GEN_swigregister = _BV.pari_GEN_swigregister
+pari_GEN_swigregister(pari_GEN)
+cvar = _BV.cvar
+
 class parameters(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, parameters, name, value)
@@ -299,20 +388,11 @@ class parameters(_object):
     __del__ = lambda self: None
 parameters_swigregister = _BV.parameters_swigregister
 parameters_swigregister(parameters)
-cvar = _BV.cvar
 
 
 def get_element(x, index):
     return _BV.get_element(x, index)
 get_element = _BV.get_element
-
-def print_GEN(x):
-    return _BV.print_GEN(x)
-print_GEN = _BV.print_GEN
-
-def create_GEN(x):
-    return _BV.create_GEN(x)
-create_GEN = _BV.create_GEN
 
 def Uniform():
     return _BV.Uniform()
@@ -357,6 +437,10 @@ subtraction = _BV.subtraction
 def multiplication(ct_1, ct_2):
     return _BV.multiplication(ct_1, ct_2)
 multiplication = _BV.multiplication
+
+def multiplication_pt(ct, pt):
+    return _BV.multiplication_pt(ct, pt)
+multiplication_pt = _BV.multiplication_pt
 # This file is compatible with both classic and new-style classes.
 
 

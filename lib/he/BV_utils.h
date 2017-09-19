@@ -15,22 +15,58 @@ struct timeval tv;
 
 pari_sp ltop, lbot;
 
+class pari_GEN{
+public:
+    GEN value;
+    
+    pari_GEN(){};
+    
+    pari_GEN(int x){
+        value = stoi(x);
+        return;
+    }
+    
+    pari_GEN operator+(const pari_GEN GEN_2){
+        pari_GEN result;
+        result.value = gadd(this->value, GEN_2.value);
+        return result;
+    }
+    
+    pari_GEN operator*(const pari_GEN GEN_2){
+        pari_GEN result;
+        result.value = gmul(this->value, GEN_2.value);
+        return result;
+    }
+    
+    pari_GEN operator/(const pari_GEN GEN_2){
+        pari_GEN result;
+        result.value = gdiv(this->value, GEN_2.value);
+        return result;
+    }
+    
+    pari_GEN operator-(const pari_GEN GEN_2){
+        pari_GEN result;
+        result.value = gsub(this->value, GEN_2.value);
+        return result;
+    }
+    
+    pari_GEN operator%(const pari_GEN GEN_2){
+        pari_GEN result;
+        result.value = gmodulo(this->value, GEN_2.value);
+        return result;
+    }
+};
+
 struct parameters{
     int n, Q, sigma;
-    GEN q, t, F;
+    pari_GEN q, t, F;
 };
 
 GEN get_element(GEN x, int index){
+    /*Function Prototype: GEN get_element(GEN x, int i)
+     The function returns the i_th element of x
+     */
     return gel(x, index + 1);
-}
-
-void print_GEN(GEN x){
-    printf("%s\n", GENtostr(x));;
-}
-
-GEN create_GEN(int x){
-    GEN y = stoi(x);
-    return y;
 }
 
 double Uniform(void) {
@@ -46,112 +82,115 @@ double Gauss(double mu, double sigma) {
     return mu + sigma*z;
 }
 
-GEN Sample(int n, double sigma) {
-    GEN ret = cgetg(n + 1, t_VEC);
+pari_GEN Sample(int n, double sigma) {
+    pari_GEN ret;
+    ret.value = cgetg(n + 1, t_VEC);
     double z;
     int i;
     
     for (i = 1; i <= n; i++) {
         z = Gauss(0, sigma);
         z = fabs(round(z)); /*absolute value of Gaussian distribution */
-        ret[i] = (long) stoi((long) z);
+        ret.value[i] = (long) stoi((long) z);
     }
     
     return ret;
 }
 
-GEN generate_random(int bit_length){
+pari_GEN generate_random(int bit_length){
     gettimeofday(&tv, NULL);
     setrand(stoi(tv.tv_usec + tv.tv_sec*1000000));
-    GEN r = randomi(gshift(gen_1, bit_length));
+    pari_GEN r;
+    r.value = randomi(gshift(gen_1, bit_length));
     return r;
 }
 
-GEN sample_error_polynomial(parameters* params){
+pari_GEN sample_error_polynomial(parameters* params){
     ltop = avma;
-    GEN tmp = Sample(params->n, params->sigma);
-    tmp = gmodulo(tmp, params->q);
-    tmp = gtopolyrev(tmp, -1);
-    tmp = gmodulo(tmp, params->F);
+    pari_GEN tmp = Sample(params->n, params->sigma);
+    tmp.value = gmodulo(tmp.value, params->q.value);
+    tmp.value = gtopolyrev(tmp.value, -1);
+    tmp.value = gmodulo(tmp.value, params->F.value);
     lbot = avma;
     return tmp;
 }
 
-GEN generate_secret_key(parameters* params){
-    GEN sk = sample_error_polynomial(params);
+pari_GEN generate_secret_key(parameters* params){
+    pari_GEN sk = sample_error_polynomial(params);
     //gerepile(ltop, lbot, NULL);
     return sk;
 }
 
-GEN generate_public_key(GEN sk, parameters* params){
+pari_GEN generate_public_key(pari_GEN sk, parameters* params){
     int i;
     GEN r, tmp, e;
-    GEN pk = cgetg(3, t_VEC);
+    pari_GEN pk;
+    pk.value = cgetg(3, t_VEC);
     int n = params->n;
     
     tmp = cgetg(n + 1, t_VEC);
     for (i = 0; i < n; i++) {
-        gel(tmp, i + 1) = generate_random(params->Q);
+        gel(tmp, i + 1) = generate_random(params->Q).value;
     }
-    tmp = gmodulo(tmp, params->q);
+    tmp = gmodulo(tmp, params->q.value);
     r = gtopolyrev(tmp, -1);
-    r = gmodulo(r, params->F);
-    gel(pk, 2) = r;
+    r = gmodulo(r, params->F.value);
+    gel(pk.value, 2) = r;
     
-    e = sample_error_polynomial(params);
+    e = sample_error_polynomial(params).value;
     //gerepile(ltop, lbot, NULL);
     
-    r = gmul(r, sk);
-    e = gmul(params->t, e);
-    gel(pk, 1) = gadd(r, e);
+    r = gmul(r, sk.value);
+    e = gmul(params->t.value, e);
+    gel(pk.value, 1) = gadd(r, e);
     return pk;
 }
 
-GEN addition(GEN ct_1, GEN ct_2){
-    GEN ct;
-    int i, k = (int) glength(ct_1), p = (int) glength(ct_2);
+pari_GEN addition(pari_GEN ct_1, pari_GEN ct_2){
+    pari_GEN ct;
+    int i, k = (int) glength(ct_1.value), p = (int) glength(ct_2.value);
     
     if (k >= p) {
-        ct = cgetg(k + 1, t_VEC);
+        ct.value = cgetg(k + 1, t_VEC);
         for (i = 0; i < p; i++)
-            gel(ct, i + 1) = gadd(compo(ct_1, i + 1), compo(ct_2, i + 1));
+            gel(ct.value, i + 1) = gadd(compo(ct_1.value, i + 1), compo(ct_2.value, i + 1));
         for (i = p; i < k; i++)
-            gel(ct, i + 1) = compo(ct_1, i + 1);
+            gel(ct.value, i + 1) = compo(ct_1.value, i + 1);
     } else {
-        ct = cgetg(p + 1, t_VEC);
+        ct.value = cgetg(p + 1, t_VEC);
         for (i = 0; i < k; i++)
-            gel(ct, i + 1) = gadd(compo(ct_1, i + 1), compo(ct_2, i + 1));
+            gel(ct.value, i + 1) = gadd(compo(ct_1.value, i + 1), compo(ct_2.value, i + 1));
         for (i = k; i < p; i++)
-            gel(ct, i + 1) = compo(ct_2, i + 1);
+            gel(ct.value, i + 1) = compo(ct_2.value, i + 1);
     }
     return ct;
 }
 
-GEN subtraction(GEN ct_1, GEN ct_2){
-    GEN ct;
-    int i, k = (int) glength(ct_1), p = (int) glength(ct_2);
+pari_GEN subtraction(pari_GEN ct_1, pari_GEN ct_2){
+    pari_GEN ct;
+    int i, k = (int) glength(ct_1.value), p = (int) glength(ct_2.value);
     
     if (k >= p) {
-        ct = cgetg(k + 1, t_VEC);
+        ct.value = cgetg(k + 1, t_VEC);
         for (i = 0; i < p; i++)
-            gel(ct, i + 1) = gsub(compo(ct_1, i + 1), compo(ct_2, i + 1));
+            gel(ct.value, i + 1) = gsub(compo(ct_1.value, i + 1), compo(ct_2.value, i + 1));
         for (i = p; i < k; i++)
-            gel(ct, i + 1) = compo(ct_1, i + 1);
+            gel(ct.value, i + 1) = compo(ct_1.value, i + 1);
     } else {
-        ct = cgetg(p + 1, t_VEC);
+        ct.value = cgetg(p + 1, t_VEC);
         for (i = 0; i < k; i++)
-            gel(ct, i + 1) = gsub(compo(ct_1, i + 1), compo(ct_2, i + 1));
+            gel(ct.value, i + 1) = gsub(compo(ct_1.value, i + 1), compo(ct_2.value, i + 1));
         for (i = k; i < p; i++)
-            gel(ct, i + 1) = compo(ct_2, i + 1);
+            gel(ct.value, i + 1) = compo(ct_2.value, i + 1);
     }
     return ct;
 }
 
-GEN multiplication(GEN ct_1, GEN ct_2){
-    GEN ct;
-    int k = (int) glength(ct_1), p = (int) glength(ct_2);
+pari_GEN multiplication(pari_GEN ct_1, pari_GEN ct_2){
+    pari_GEN ct;
+    int k = (int) glength(ct_1.value), p = (int) glength(ct_2.value);
     GEN tmp;
-    ct = cgetg(k + p, t_VEC);
+    ct.value = cgetg(k + p, t_VEC);
     bool flag[k + p - 1];
     for(int i = 0; i < k + p - 1; i++)
         flag[i] = false;
@@ -159,13 +198,18 @@ GEN multiplication(GEN ct_1, GEN ct_2){
     for(int i = 0; i < k; i++)
         for(int j = 0; j < p; j++){
             //cout << i << " " << j << " " << i + j << endl;
-            tmp = gmul(compo(ct_1, i + 1), compo(ct_2, j + 1));
+            tmp = gmul(compo(ct_1.value, i + 1), compo(ct_2.value, j + 1));
             if(flag[i + j])
-                gel(ct, i + j + 1) = gadd(compo(ct, i + j + 1), tmp);
+                gel(ct.value, i + j + 1) = gadd(compo(ct.value, i + j + 1), tmp);
             else{
-                gel(ct, i + j + 1) = tmp;
+                gel(ct.value, i + j + 1) = tmp;
                 flag[i + j] = true;
             }
         }
     return ct;
+}
+
+pari_GEN multiplication_pt(pari_GEN ct, pari_GEN pt){
+    pari_GEN result = ct * pt;
+    return result;
 }
