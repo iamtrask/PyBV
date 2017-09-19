@@ -8,51 +8,50 @@ The API can be imported using the command "import BV". It currently supports the
 ## Functions:
 
 ### pari_init(pari_size, max_prime)   
-   pari_init() is the function that needs to be called before dealing with this API. pari_size defines the size of stack we'll be using, and max_prime defines the pre computed prime table. Arguments: pari_size (int), max_prime (int)
+   pari_init() is the function that needs to be called before dealing with this API. On importing the module, the module executes this statement automatically. pari_size defines the size of stack we'll be using, and max_prime defines the pre computed prime table. By default, pari_size is set to 2000000000, and max_prime is set to 2. Arguments: pari_size (int), max_prime (int)
 
 ### pari_close()   
    pari_close() function has to be called at the end of each program to clear the memory used.
 
-### create_GEN(x)   
-   create_GEN() function converts integer x to GEN
-
-### get_element(x, i)   
-   get_element() function returns the i^th element of GEN variable x
-
-### print_GEN(x)   
-   print_GEN() function prints the GEN variable x
-
 ## Classes:
+
+### pari_GEN
+    This class abstracts the GEN variable in C++, making it available through python interface. The class is compatible with +, *, /, -, \_\_getitem\_\_, %, and print.
+  * Class Data:
+    1. value (GEN)
+    
+  * \_\_init\_\_(self, x)
+    The constructor converts x to a GEN variable. Arguments: x(int)
 
 ### parameters
   * Class Data:
     1. n, Q, sigma (ints)
-    2. q, t, F (GEN)
+    2. q, t, F (pari_GEN)
 
 ### secret_key
   * Class Data:
-    1. sk (GEN)
+    1. sk (pari_GEN)
     2. params (parameters)
 
   * \_\_init\_\_(self, sk = None, parmas = None)   
-    The constructor initiates class data. Arguments: sk (GEN), params (parameters)
+    The constructor initiates class data. Arguments: sk (pari_GEN), params (parameters)
 
   * decrypt(self, ct)   
-    decrypt() method returns the plaintext (GEN) encrypted in ciphertext ct. Arguments: ct (GEN) 
+    decrypt() method returns the plaintext (pari_GEN) encrypted in ciphertext ct. Arguments: ct (pari_GEN) 
 
   * serialize(self)   
     TO BE IMPLEMENTED
 
 ### public_key
   * Class Data:
-    1. pk (GEN)
+    1. pk (pari_GEN)
     2. params (parameters*)
 
   * \_\_init\_\_(self, pk = None, params = None)   
-    The constructor initiates the class data. Arguments: pk (GEN), params (parameters*)
+    The constructor initiates the class data. Arguments: pk (pari_GEN), params (parameters*)
 
   * encrypt(self, pt)   
-    encrypt() method returns the ciphertext (GEN) which encrypts plaintext pt. Arguments: pt (GEN)
+    encrypt() method returns the ciphertext (pari_GEN) which encrypts plaintext pt. Arguments: pt (pari_GEN)
 
   * serialize(self)   
     TO BE IMPLEMENTED
@@ -70,13 +69,13 @@ The API can be imported using the command "import BV". It currently supports the
     TO BE IMPLEMENTED
 
 ### ciphertext   
-    The class is compatible with '+', '*', and '-' operators
+    The class is compatible with '+', '*', and '-' operators. It also supports mulitplication with plaintext (int) and batching.
   * Class Data:
-    1. value (GEN)
+    1. value (pari_GEN)
     2. pk (public_key*)
 
   * \_\_init\_\_(self, plaintext = None, pk)   
-    The constuctor method takes two arguments: plaintext (GEN variable), pk (public_key*)
+    The plaintext variable is either an int variable, or it is an int_list variable. The size of list has to be less than the degree of polynomials (paramter *n*) in the polynomial ring. The constuctor method takes two arguments: plaintext (int or int_list), pk (public_key*)
 
   * decrypt(self, sk)   
-    decrypt() method returns the decrypted ciphertext which is GEN variable. Arguments: sk (secret_key*)
+    decrypt() method returns the decrypted ciphertext which is pari_GEN variable. Arguments: sk (secret_key*)
