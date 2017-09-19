@@ -26,6 +26,11 @@ public:
         return;
     }
     
+    void initialize(GEN x){
+        value = x;
+        return;
+    }
+    
     pari_GEN operator+(const pari_GEN GEN_2){
         pari_GEN result;
         result.value = gadd(this->value, GEN_2.value);
@@ -54,6 +59,13 @@ public:
         pari_GEN result;
         result.value = gmodulo(this->value, GEN_2.value);
         return result;
+    }
+    
+    bool operator==(const pari_GEN GEN_2){
+       if(!gequal(this->value, GEN_2.value))
+           return false;
+        else
+            return true;
     }
 };
 
