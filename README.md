@@ -5,6 +5,18 @@ The scheme was proposed by Lauter et al. in - Can Homomorphic Encryption be Prac
 
 The API can be imported using the command "import BV". It currently supports the following functions and classes:
 
+
+## Setup
+
+### OSX
+
+```
+brew cask install xquartz
+brew install pari
+brew link pari # optional
+sh build.sh
+```
+
 ## Functions:
 
 ### pari_init(pari_size, max_prime)   
