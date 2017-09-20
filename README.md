@@ -26,7 +26,15 @@ sh build.sh
 sudo apt-get install swig
 sh build.sh
 ```
+- To test your installation, run the following command from your PyBV folder
+```pythom -m unittest```
 
+#### Troubleshooting
+Anaconda users may get a cryptic error relating to *__cxa_throw_bad_array_new_length* when trying to import PyBV due to a conflict between C++ verions. Running the below commands should fix it.
+```
+conda remove -y libgcc
+sh build.sh
+```
 
 ## Functions:
 
