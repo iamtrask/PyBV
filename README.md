@@ -18,6 +18,24 @@ brew install swig
 sh build.sh
 ```
 
+### Ubuntu
+
+- You'll need to [download and build pari-gp](https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.9.3.tar.gz) from source.  Once built, you'll need to add Pari's build output folder to your LD_LIBRARY_PATH so that Pari's .so library can be found when we build PyBV.
+- Then, install swig and build BV
+```
+sudo apt-get install swig
+sh build.sh
+```
+- To test your installation, run the following command from your PyBV folder
+```pythom -m unittest```
+
+#### Troubleshooting
+Anaconda users may get a cryptic error relating to *__cxa_throw_bad_array_new_length* when trying to import PyBV due to a conflict between C++ verions. Running the below commands should fix it.
+```
+conda remove -y libgcc
+sh build.sh
+```
+
 ## Functions:
 
 ### pari_init(pari_size, max_prime)   
