@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 import BV
-from PySyft import TensorBase
+from syft import TensorBase
 
 
 class BVTensor(TensorBase):
