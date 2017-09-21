@@ -6,24 +6,32 @@ from syft import TensorBase
 
 class BVTensor(TensorBase):
 
-    def __init__(self, public_key, data=None, input_is_decrypted=True):
+    # TODO Remove all secret_key!  Only here to support temporary implementation of reencrypt method! Once reencrypt gets the new algo!
+    def __init__(self, public_key, data=None, input_is_decrypted=True, secret_key=None):
         self.encrypted = True
 
         self.public_key = public_key
+        self.secret_key = secret_key
+
         if(type(data) == np.ndarray and input_is_decrypted):
-            self.data = public_key.encrypt(data, True)
+            self.data = BV.ciphertext(data, self.public_key)
         else:
             self.data = data
 
-    def reencrypt(self, tensor):
+    def reencrypt(self, op):
         '''
-        Successive multiplications lead to growing errors.  Reencryption controls the growth of the errors.
+        Successive multiplications lead to growing errors.  Reencryption "cleans" - stops the growth of the errors.
         Current implementation is just a placeholder
         :return:
         '''
-        # TODO Decipher, cipher
-        # TODO This is just a stop-gap!  There will in future be a HE re-encryption! deevashwer has a cunning plan!
-        return (tensor)
+        if self.encrypted is False:
+            return
+
+        # TODO Remove this stop-gap!  There will in future be a HE re-encryption! deevashwer has a cunning plan!
+        plaintext = op.decrypt(self.private_key)
+        result = BV.ciphertext(plaintext, self.private_key)
+
+        return (result)
 
     def __setitem__(self, key, value):
         self.data[key] = value.data
@@ -37,14 +45,14 @@ class BVTensor(TensorBase):
 
         if(not isinstance(tensor, TensorBase)):
             # try encrypting it
-            tensor = BVTensor(self.public_key, np.array([tensor]).astype('float'))
+            tensor = BVTensor(self.public_key, np.array([tensor]).astype('float'), True, self.secret_key)
 
-            return BVTensor(self.public_key, self.data + tensor.data, False)
+            return BVTensor(self.public_key, self.data + tensor.data, False, self.secret_key)
 
         if(type(tensor) == TensorBase):
-            tensor = BVTensor(self.public_key, tensor.data)
+            tensor = BVTensor(self.public_key, tensor.data, False, self.secret_key)
 
-        return BVTensor(self.public_key, self.data + tensor.data, False)
+        return BVTensor(self.public_key, self.data + tensor.data, False, self.secret_key)
 
     def __sub__(self, tensor):
         """Performs element-wise subtraction between two tensors"""
@@ -70,13 +78,15 @@ class BVTensor(TensorBase):
         if(isinstance(tensor, TensorBase)):
             if(not tensor.encrypted):
                 result = self.data * tensor.data
-                o = BVTensor(self.public_key, result, False)
+                result = self.reencrypt(result)
+                o = BVTensor(self.public_key, result, False, self.secret_key)
                 return o
             else:
                 return NotImplemented
         else:
             op = self.data * float(tensor)
-            return BVTensor(self.public_key, op, False)
+            op = self.reencrypt(op)
+            return BVTensor(self.public_key, op, False, self.secret_key)
 
     def __truediv__(self, tensor):
         """Performs element-wise division between two tensors"""
@@ -118,15 +128,23 @@ class BVTensor(TensorBase):
 
 class Float():
 
-    def __init__(self, public_key, data=None):
+    # TODO Remove secret key as soon as deevashwer's HE clean/reencrypt algo is implemented
+    def __init__(self, public_key, data=None, secret_key=None):
         """Wraps pointer to encrypted Float with an interface that numpy
         can use."""
 
         self.public_key = public_key
+        self.secret_key = secret_key
+
         if(data is not None):
             self.data = self.public_key.pk.encrypt(data)
         else:
             self.data = None
+
+    def reencypt(self):
+        # TODO replace with deevashwer's clever new HE algo
+        # "Cleaning" controls the noise that will otherwise grow with successive multiplications
+        self.data = self.public_key.pk.encrypt(self.secret_key.sk.decrypt(self.data))
 
     def decrypt(self, secret_key):
         return secret_key.decrypt(self)
@@ -149,12 +167,14 @@ class Float():
         """Multiplies two Floats. y may be encrypted or a simple Float."""
 
         if(type(y) == type(self)):
-            out = Float(self.public_key, None)
+            out = Float(self.public_key, None, self.secret_key)
             out.data = self.data * y.data
+            out.reencypt()
             return out
         elif(type(y) == int or type(y) == float):
-            out = Float(self.public_key, None)
+            out = Float(self.public_key, None, self.secret_key)
             out.data = self.data * y
+            out.reencypt()
             return out
         else:
             return None
