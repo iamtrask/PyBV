@@ -110,3 +110,10 @@ sh build.sh
 
   * decrypt(self, sk)   
     decrypt() method returns the decrypted ciphertext which is pari_GEN variable. Arguments: sk (secret_key*)
+    
+--------
+   
+## TODO:
+- [ ] Modulus switching support. <br/>
+- [ ] Relinearization support. <br/>
+- [ ] Levelled Fully Homomorphism support. <br/>
