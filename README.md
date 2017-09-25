@@ -116,4 +116,4 @@ sh build.sh
 ## TODO:
 - [ ] Modulus switching support. <br/>
 - [ ] Relinearization support. <br/>
-- [ ] Levelled Fully Homomorphism support. <br/>
+- [ ] Levelled Full Homomorphism support. <br/>
