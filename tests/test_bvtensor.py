@@ -1,6 +1,8 @@
 import unittest
-from basic import BVTensor
-from keys import KeyPair, PublicKey, SecretKey
+
+from he.bv.basic import BVTensor
+from he.keys import KeyPair
+
 
 class addition_test(unittest.TestCase):
     def __init__(self, *args, **kwargs):
