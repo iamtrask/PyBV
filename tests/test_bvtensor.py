@@ -10,7 +10,7 @@ class addition_test(unittest.TestCase):
         self.keys = KeyPair()
         self.keys.generate()
 
-    def add(self):
+    def test_add(self):
         a = BVTensor(40, self.keys.pk, False, self.keys.sk)
         b = a + 2
         # TODO decrypt, check plaintext result
@@ -22,7 +22,7 @@ class multiplication_test(unittest.TestCase):
         self.keys = KeyPair()
         self.keys.generate()
 
-    def add(self):
+    def test_mul_by_scalar(self):
         a = BVTensor(21, self.keys.pk, False, self.keys.sk)
         b = a * 2
         # TODO decrypt, check plaintext result
