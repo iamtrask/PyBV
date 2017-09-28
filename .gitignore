@@ -135,3 +135,13 @@ venv.bak/
 *.exe
 *.out
 *.app
+
+# IntelliJ
+.idea
+
+# macOS
+.DS_Store
+
+# Build artifacts
+BV.py
+BV_wrap.cxx
