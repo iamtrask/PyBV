@@ -6,36 +6,30 @@ The scheme was proposed by Lauter et al. in <a href="https://eprint.iacr.org/201
 The API can be imported using the command "import BV". It currently supports the following functions and classes:
 
 
-## Installation
+## Running
 
-### OSX
+1. Install [Docker](https://www.docker.com/)
 
+   * If you're on macOS and use [Homebrew](https://brew.sh), run `brew cask install docker; open -a docker`
+
+2. Run these commands:
+
+``` shell
+make build
+make run
 ```
-brew cask install xquartz
-brew install pari
-brew link pari # optional
-brew install swig
-sh build.sh
-```
 
-### Ubuntu
+## Development
 
-- You'll need to [download and build pari-gp](https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.9.3.tar.gz) from source.  Once built, you'll need to add Pari's build output folder to your LD_LIBRARY_PATH so that Pari's .so library can be found when PyBV is built.
-- Install swig and build BV.
-```
-sudo apt-get install swig
-sh build.sh
-```
-- Run `python -m unittest` from within the PyBV folder to verify your installation.
+1. Install [Docker](https://www.docker.com/)
 
-## Troubleshooting
+    * If you're on macOS and use [Homebrew](https://brew.sh), run `brew cask install docker; open -a docker`
+   
+2. Run `make build`
 
-Anaconda users may get a cryptic error relating to *__cxa_throw_bad_array_new_length* when trying to import PyBV due to a conflict between C++ verions. Running the commands mentioned below should fix it.
+3. Edit source code as you wish
 
-```
-conda remove -y libgcc
-sh build.sh
-```
+4. Run `make dev`
 
 ## API
 
