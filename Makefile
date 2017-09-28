@@ -1,4 +1,4 @@
-.PHONY: run_example compile_and_run build run dev shell test
+.PHONY: test compile_and_test build run dev shell
 
 compile:
 	swig -c++ -python -py3 BV.i
