@@ -4,3 +4,4 @@
 - [ ] Relinearization Support <br/>
 - [ ] Bootstrapping Support <br/>
 - [ ] Packing Methods <br/>
+- [ ] Serialization and Deserialization support. <br/>
