@@ -1,10 +1,10 @@
 import numpy as np
 import pickle
 import BV
-from syft import TensorBase
 
 
-class BVTensor(TensorBase):
+
+class BVTensor():
 
     # TODO Remove all secret_key!  Only here to support temporary implementation of reencrypt method! Once reencrypt gets the new algo!
     def __init__(self, public_key, data=None, input_is_decrypted=True, secret_key=None):
@@ -43,13 +43,13 @@ class BVTensor(TensorBase):
     def __add__(self, tensor):
         """Performs element-wise addition between two tensors"""
 
-        if(not isinstance(tensor, TensorBase)):
+        if(not isinstance(tensor, BVTensor)):
             # try encrypting it
             tensor = BVTensor(self.public_key, np.array([tensor]).astype('float'), True, self.secret_key)
 
             return BVTensor(self.public_key, self.data + tensor.data, False, self.secret_key)
 
-        if(type(tensor) == TensorBase):
+        if(type(tensor) == BVTensor):
             tensor = BVTensor(self.public_key, tensor.data, False, self.secret_key)
 
         return BVTensor(self.public_key, self.data + tensor.data, False, self.secret_key)
@@ -57,12 +57,12 @@ class BVTensor(TensorBase):
     def __sub__(self, tensor):
         """Performs element-wise subtraction between two tensors"""
 
-        if(not isinstance(tensor, TensorBase)):
+        if(not isinstance(tensor, BVTensor)):
             # try encrypting it
             tensor = self.public_key.encrypt(tensor)
             return BVTensor(self.public_key, self.data - tensor.data, False)
 
-        if(type(tensor) == TensorBase):
+        if(type(tensor) == BVTensor):
             tensor = BVTensor(self.public_key, tensor.data)
 
         return BVTensor(self.public_key, self.data - tensor.data, False)
@@ -75,7 +75,7 @@ class BVTensor(TensorBase):
     def __mul__(self, tensor):
         """Performs element-wise multiplication between two tensors"""
 
-        if(isinstance(tensor, TensorBase)):
+        if(isinstance(tensor, BVTensor)):
             if(not tensor.encrypted):
                 result = self.data * tensor.data
                 result = self.reencrypt(result)
@@ -91,7 +91,7 @@ class BVTensor(TensorBase):
     def __truediv__(self, tensor):
         """Performs element-wise division between two tensors"""
 
-        if(isinstance(tensor, TensorBase)):
+        if(isinstance(tensor, BVTensor)):
             if(not tensor.encrypted):
                 result = self.data * (1 / tensor.data)
                 o = BVTensor(self.public_key, result, False)
