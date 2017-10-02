@@ -1,11 +1,13 @@
-import BV
-import numpy as np
 import pickle
+
+import numpy as np
 import syft
-from .basic import Float, BVTensor
 from syft import TensorBase
-from syft.he.abstract.keys import AbstractSecretKey, AbstractPublicKey
 from syft.he.abstract.keys import AbstractKeyPair
+from syft.he.abstract.keys import AbstractSecretKey, AbstractPublicKey
+
+import BV
+from he.bv.basic import Float, BVTensor
 
 
 class SecretKey(AbstractSecretKey):
