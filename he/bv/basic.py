@@ -14,7 +14,7 @@ class BVTensor():
         self.secret_key = secret_key
 
         if(type(data) == np.ndarray and input_is_decrypted):
-            self.data = BV.ciphertext(data, self.public_key)
+            self.data = BV.ciphertext(data.tolist(), self.public_key.pk)
         else:
             self.data = data
 

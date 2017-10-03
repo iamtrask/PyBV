@@ -13,7 +13,7 @@ class addition_test(unittest.TestCase):
         self.keys.generate()
 
     def test_add(self):
-        a = BVTensor(self.keys.pk, [40,2], False, self.keys.sk)
+        a = BVTensor(self.keys.pk(), np.asarray([40,2]), True, self.keys.sk)
         b = a + 2.0
         # TODO decrypt, check plaintext result
 
@@ -25,7 +25,7 @@ class multiplication_test(unittest.TestCase):
         self.keys.generate()
 
     def test_mul_by_scalarinv(self):
-        a = BVTensor(self.keys.pk, [21], False, self.keys.sk)
+        a = BVTensor(self.keys.pk(), np.asarray([21]), True, self.keys.sk)
         b = a * 2
         # TODO decrypt, check plaintext result
 
