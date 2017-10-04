@@ -1,11 +1,15 @@
 import unittest
 import BV
 
-class correctness_test(unittest.TestCase):
+class base_test(unittest.TestCase):
     def __init__(self, *args, **kwargs):
-        super(correctness_test, self).__init__(*args, **kwargs)
+        super(base_test, self).__init__(*args, **kwargs)
         keys = BV.key_gen()
         self.keys = keys.generate_key(2048, 61, 2030, 8)
+
+class correctness_test(base_test):
+    def __init__(self, *args, **kwargs):
+        super(correctness_test, self).__init__(*args, **kwargs)
     
     def test_single_data(self):
         ct = BV.ciphertext(5, self.keys.pk)
@@ -17,11 +21,9 @@ class correctness_test(unittest.TestCase):
         pt = BV.pari_GEN([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
         self.assertEqual(ct.decrypt(self.keys.sk).sub_array(0, 10), pt)
 
-class addition_test(unittest.TestCase):
+class addition_test(base_test):
     def __init__(self, *args, **kwargs):
         super(addition_test, self).__init__(*args, **kwargs)
-        keys = BV.key_gen()
-        self.keys = keys.generate_key(2048, 61, 2030, 8)
 
     def test_single_data(self):
         ct_1 = BV.ciphertext(10, self.keys.pk)
@@ -37,11 +39,9 @@ class addition_test(unittest.TestCase):
         ct = ct_1 + ct_2
         self.assertEqual(ct.decrypt(self.keys.sk).sub_array(0, 10), pt)
 
-class subtraction_test(unittest.TestCase):
+class subtraction_test(base_test):
     def __init__(self, *args, **kwargs):
         super(subtraction_test, self).__init__(*args, **kwargs)
-        keys = BV.key_gen()
-        self.keys = keys.generate_key(2048, 61, 2030, 8)
     
     def test_single_data(self):
         ct_1 = BV.ciphertext(10, self.keys.pk)
@@ -57,11 +57,9 @@ class subtraction_test(unittest.TestCase):
         ct = ct_1 - ct_2
         self.assertEqual(ct.decrypt(self.keys.sk).sub_array(0, 10), pt)
 
-class multiplication_test(unittest.TestCase):
+class multiplication_test(base_test):
     def __init__(self, *args, **kwargs):
         super(multiplication_test, self).__init__(*args, **kwargs)
-        keys = BV.key_gen()
-        self.keys = keys.generate_key(2048, 61, 2030, 8)
     
     def test_single_data(self):
         ct_1 = BV.ciphertext(10, self.keys.pk)
@@ -93,11 +91,9 @@ class multiplication_test(unittest.TestCase):
         self.assertEqual(ct_1.decrypt(self.keys.sk).sub_array(0, 10), pt)
         self.assertEqual(ct_2.decrypt(self.keys.sk).sub_array(0, 10), pt)
 
-class miscellaneous(unittest.TestCase):
+class miscellaneous(base_test):
     def __init__(self, *args, **kwargs):
         super(miscellaneous, self).__init__(*args, **kwargs)
-        keys = BV.key_gen()
-        self.keys = keys.generate_key(2048, 61, 2030, 8)
 
     def test_ciphertext_array(self):
         ciphertext_array = []
