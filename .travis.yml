@@ -1,0 +1,27 @@
+language: python
+python:
+  - "3.6"
+
+# install server dependencies
+before_install:
+  - "sudo apt-get -y install musl-dev g++ swig make"
+  - "wget https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.9.3.tar.gz \
+      && tar -xzf pari-2.9.3.tar.gz \
+      && cd pari-2.9.3 \
+      && ./Configure \
+      && make all \
+      && make bench \
+      && sudo make install \
+      && ls \
+      && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/ \
+      && echo $LD_LIBRARY_PATH \
+      && cd .."
+
+# install dependencies
+install:
+  - "make compile"
+  - "pip install pytest pytest--flake8"
+
+# run tests
+script:
+  - make test
