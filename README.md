@@ -1,4 +1,10 @@
 # PyBV
+
+
+❗
+This library has been deprecated due to changes in strategy and roadmap. To actively contribute based on our current roadmap, checkout [OpenMined](https://github.com/OpenMined/OpenMined), [PySyft](https://github.com/OpenMined/PySyft), or [join our slack](https://openmined.slack.com/messages/team_pysyft)
+---
+
 A Python Implementation of the BV Homomorphic Encryption Scheme
 
 The scheme was proposed by Lauter et al. in <a href="https://eprint.iacr.org/2011/405.pdf">Can Homomorphic Encryption be Practical?</a> which was a variant of a homomorphic encryption scheme given by Brakerski et al. in <a href="http://www.wisdom.weizmann.ac.il/~zvikab/localpapers/IdealHom.pdf">Fully Homomorphic Encryption from Ring-LWE and Security for Key Dependent Messages</a>.
